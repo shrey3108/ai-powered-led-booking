@@ -28,12 +28,9 @@ availability checking, price estimation, booking confirmation, updates, and canc
 
 Watch the demo of the LED Booking Flow below:
 
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/Wf29mk0YpAc"
-title="YouTube video player"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen></iframe>
+<iframe 
+src="https://www.youtube.com/embed/Wf29mk0YpAc"</iframe>
+
 ## Note
 This repository focuses on system design and workflow logic.
 Sensitive credentials are excluded for security reasons.
