@@ -2,8 +2,8 @@
 
 This project is an AI-driven LED advertisement booking system that automates
 availability checking, price estimation, booking confirmation, updates, and cancellations.
+![Workflow Banner](https://github.com/shrey3108/ai-powered-led-booking/blob/main/AI-Powered%20LED%20Advertising%20Booking%20System.png)
 
-https://github.com/shrey3108/ai-powered-led-booking/blob/main/AI-Powered%20LED%20Advertising%20Booking%20System.png
 
 ## Features
 - Conversational AI assistant (Vapi)
