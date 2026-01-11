@@ -135,7 +135,7 @@
       "name": "Get a row",
       "credentials": {
         "supabaseApi": {
-          "id": "UGcYRuohqNaBiL7w",
+          "id": "",
           "name": "Supabase account"
         }
       }
@@ -161,7 +161,7 @@
       "name": "Delete an event",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "tCkzTGuRKZPyd8qS",
+          "id": "",
           "name": "Google Calendar account"
         }
       }
@@ -191,7 +191,7 @@
       "name": "Delete a row",
       "credentials": {
         "supabaseApi": {
-          "id": "UGcYRuohqNaBiL7w",
+          "id": "",
           "name": "Supabase account"
         }
       }
@@ -223,7 +223,7 @@
       "name": "check avlblity",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "tCkzTGuRKZPyd8qS",
+          "id": "",
           "name": "Google Calendar account"
         }
       }
@@ -250,7 +250,7 @@
       "name": "checks date",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "tCkzTGuRKZPyd8qS",
+          "id": "",
           "name": "Google Calendar account"
         }
       }
@@ -270,7 +270,7 @@
       ],
       "id": "2f893358-e94f-4a21-be3a-7ae8b1ddd96f",
       "name": "Vapi_Booking_Request_Webhook",
-      "webhookId": "183e1075-67e5-40b5-b5b9-599e8b6aa990"
+      "webhookId": ""
     },
     {
       "parameters": {
@@ -303,7 +303,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const calendarMap = {\n  School: \"2f08543ad2e2c233afcb0b264d6bbbc85e65633a3a09937e0aee55c51d12ed16@group.calendar.google.com\",\n  College: \"f2a0ecb55e1a1d42a364c40c1812ce348b42434423e9824897d3da6248d8692e@group.calendar.google.com\",\n  Highway: \"3b10d849c0576e3d7a0e8b184381fd965250db2a06ec21928736fc4cabac7888@group.calendar.google.com\",\n  Park: \"187ccbd1135c805f3ffba14de44e7dbf264cf80a46d1e10680564e28ace952af@group.calendar.google.com\",\n  Market: \"67cd9aaedda88f69512f984295378f7b9206f338e27d7cf38b14a11a861e4a6b@group.calendar.google.com\"\n};\n\n// 👇 normalize input\nconst ledSelectionRaw = $json.ledSelection;\nconst ledSelection =\n  ledSelectionRaw.charAt(0).toUpperCase() + ledSelectionRaw.slice(1).toLowerCase();\n\nreturn {\n  json: {\n    ledSelection,\n    calendarId: calendarMap[ledSelection],\n\n    startDate: $json.startDate,\n    endDate: $json.endDate,\n    startTime: $json.startTime,\n    endTime: $json.endTime,\n\n    toolCallId: $json.toolCallId,\n    available: $json.avlaible,\n    alternate: $json.alternate,\n\n    name: $json.fullName,\n    mobileNumber: $json.mobileNumber\n  }\n};\n"
+        "jsCode": "const calendarMap = {\n  School: \"school id\",\n  College: \"collegeid\",\n  Highway: \"Highwayid\",\n  Park: \"ParkId\",\n  Market: \"MarketId\"\n};\n\n// 👇 normalize input\nconst ledSelectionRaw = $json.ledSelection;\nconst ledSelection =\n  ledSelectionRaw.charAt(0).toUpperCase() + ledSelectionRaw.slice(1).toLowerCase();\n\nreturn {\n  json: {\n    ledSelection,\n    calendarId: calendarMap[ledSelection],\n\n    startDate: $json.startDate,\n    endDate: $json.endDate,\n    startTime: $json.startTime,\n    endTime: $json.endTime,\n\n    toolCallId: $json.toolCallId,\n    available: $json.avlaible,\n    alternate: $json.alternate,\n\n    name: $json.fullName,\n    mobileNumber: $json.mobileNumber\n  }\n};\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -511,14 +511,14 @@
       "name": "Create booking slot",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "tCkzTGuRKZPyd8qS",
+          "id": "",
           "name": "Google Calendar account"
         }
       }
     },
     {
       "parameters": {
-        "chatId": "1297238311",
+        "chatId": "",
         "text": "=Hello {{$json.name}},\n\nYour LED booking request has been received.\n\nBooking ID: {{$json.id}}\nDate & Time: {{\n  new Date(new Date($json.start_date_time).getTime() + (5.5 * 60 * 60 * 1000))\n    .toLocaleString('en-IN', {\n      day: '2-digit',\n      month: 'short',\n      year: 'numeric',\n      hour: '2-digit',\n      minute: '2-digit',\n      hour12: true\n    })\n}}\nLocation: {{ $json['led location'] }}\n\nPlease save this Booking ID for future reference.\n\n– LED Ads Team\n",
         "additionalFields": {}
       },
@@ -530,10 +530,10 @@
       ],
       "id": "5fd0d869-f51d-4c33-83cb-84b437b80852",
       "name": "Send confirmation message on Telegram",
-      "webhookId": "d0094545-40de-437f-ac56-42622ccb37a5",
+      "webhookId": "",
       "credentials": {
         "telegramApi": {
-          "id": "S8RQzhLs82fOgiPU",
+          "id": "",
           "name": "Telegram account"
         }
       }
@@ -581,7 +581,7 @@
       "name": "Store data in Supabase",
       "credentials": {
         "supabaseApi": {
-          "id": "UGcYRuohqNaBiL7w",
+          "id": "",
           "name": "Supabase account"
         }
       }
@@ -601,7 +601,7 @@
       ],
       "id": "90bbde21-249d-4815-9a2a-2e316b301c6f",
       "name": "Webhook for getting and deleting bookings",
-      "webhookId": "27fb1368-fcb3-423b-b4a3-f9718ef722dd"
+      "webhookId": ""
     },
     {
       "parameters": {
@@ -694,7 +694,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\n\nconst calendarMap = {\n  School: \"2f08543ad2e2c233afcb0b264d6bbbc85e65633a3a09937e0aee55c51d12ed16@group.calendar.google.com\",\n  College: \"f2a0ecb55e1a1d42a364c40c1812ce348b42434423e9824897d3da6248d8692e@group.calendar.google.com\",\n  Highway:\"3b10d849c0576e3d7a0e8b184381fd965250db2a06ec21928736fc4cabac7888@group.calendar.google.com\",\n\nPark:\"187ccbd1135c805f3ffba14de44e7dbf264cf80a46d1e10680564e28ace952af@group.calendar.google.com\",\nMarket:\"67cd9aaedda88f69512f984295378f7b9206f338e27d7cf38b14a11a861e4a6b@group.calendar.google.com\"  \n};\n\nreturn items.map(item => {\n  const ledLocation = item.json[\"led location\"];\n  const calendarId = calendarMap[ledLocation] || \"\";\n\n  return {\n    json: {\n      ...item.json,\n      calendarId\n    }\n  };\n});\n"
+        "jsCode": "const items = $input.all();\n\nconst calendarMap = {\n  School: \"Schoolid\",\n  College: \"Collegeid\",\n  Highway:\"Highwayid\",\n\nPark:\"ParkId\",\nMarket:\"MarketId\"  \n};\n\nreturn items.map(item => {\n  const ledLocation = item.json[\"led location\"];\n  const calendarId = calendarMap[ledLocation] || \"\";\n\n  return {\n    json: {\n      ...item.json,\n      calendarId\n    }\n  };\n});\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -743,7 +743,7 @@
       "name": "Get booking IDs using the phone number1",
       "credentials": {
         "supabaseApi": {
-          "id": "UGcYRuohqNaBiL7w",
+          "id": "",
           "name": "Supabase account"
         }
       }
@@ -1083,6 +1083,6 @@
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "1ceb8f5307d25e4dce4c598a4327e990a034d638b65f552dd4289eb465e5d189"
+    "instanceId": ""
   }
 }
