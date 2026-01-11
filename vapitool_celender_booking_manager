@@ -1,0 +1,32 @@
+Description:
+This tool is used to manage LED ad bookings. It allows retrieving a user’s existing bookings using their mobile number and cancelling a specific booking using its booking ID. The tool does not create or update bookings and only performs get or delete operations.
+
+
+json
+
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "",
+      "type": "array",
+      "default": "",
+      "items": {
+        "type": "object",
+        "required": [],
+        "properties": {}
+      }
+    },
+    "action": {
+      "description": "",
+      "type": "string",
+      "default": ""
+    },
+    "number": {
+      "description": "",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "required": []
+}

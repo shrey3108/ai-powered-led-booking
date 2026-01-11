@@ -1,0 +1,65 @@
+Description:
+This tool is used to send LED booking details to the backend system.
+It should be called ONLY after all required booking details are collected from the user.
+The tool sends the user's name, phone number, selected LED locations, date range, and daily time slot to the system for further processing.
+
+
+json
+
+{
+  "type": "object",
+  "properties": {
+    "Action": {
+      "description": "",
+      "type": "string",
+      "default": ""
+    },
+    "endDate": {
+      "description": "Booking end date in YYYY-MM-DD format",
+      "type": "string"
+    },
+    "endTime": {
+      "description": "Daily end time in HH:mm format (24-hour)",
+      "type": "string"
+    },
+    "fullName": {
+      "description": "Customer full name",
+      "type": "string"
+    },
+    "startDate": {
+      "description": "Booking start date in YYYY-MM-DD format",
+      "type": "string"
+    },
+    "startTime": {
+      "description": "Daily start time in HH:mm format (24-hour)",
+      "type": "string"
+    },
+    "alternative": {
+      "description": "",
+      "type": "string",
+      "default": ""
+    },
+    "ledSelection": {
+      "description": "Selected LED locations",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mobileNumber": {
+      "description": "Customer mobile number with country code if possible",
+      "type": "string"
+    }
+  },
+  "required": [
+    "fullName",
+    "mobileNumber",
+    "startDate",
+    "endDate",
+    "startTime",
+    "endTime",
+    "ledSelection",
+    "Action",
+    "alternative"
+  ]
+}

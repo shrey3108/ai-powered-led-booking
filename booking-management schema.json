@@ -1,0 +1,1088 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6fa7185-bc6c-49fb-bf1c-9c49578ebc80",
+              "name": "led",
+              "value": "={{ $('Divide by date').item.json.ledSelection }}",
+              "type": "string"
+            },
+            {
+              "id": "145abbe5-3f34-4e24-a85c-6ee4f4c70420",
+              "name": "available",
+              "value": "={{ $json.available }}",
+              "type": "boolean"
+            },
+            {
+              "id": "32858d61-4c28-48ec-92a0-4abd6d449f63",
+              "name": "start_date",
+              "value": "={{ $('Divide by date').item.json.start_datetime }}",
+              "type": "string"
+            },
+            {
+              "id": "cd96671d-f55c-4720-885f-5331b49578cf",
+              "name": "end_date",
+              "value": "={{ $('Divide by date').item.json.end_datetime }}",
+              "type": "string"
+            },
+            {
+              "id": "9f011666-3dd1-4e33-af98-a311535dc42d",
+              "name": "id",
+              "value": "={{ $('Divide by date').item.json.callid }}",
+              "type": "string"
+            },
+            {
+              "id": "6f4621bf-fb26-4bc2-a9c2-0ba078f2db66",
+              "name": "celenderid",
+              "value": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.calendarId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6416,
+        1616
+      ],
+      "id": "66e40a03-fd99-4196-a37f-b53569dad8b9",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6fa7185-bc6c-49fb-bf1c-9c49578ebc80",
+              "name": "led",
+              "value": "={{ $('Set nearest dates to check the calendar later').item.json.led }}",
+              "type": "string"
+            },
+            {
+              "id": "145abbe5-3f34-4e24-a85c-6ee4f4c70420",
+              "name": "available",
+              "value": "={{ $json.available }}",
+              "type": "boolean"
+            },
+            {
+              "id": "32858d61-4c28-48ec-92a0-4abd6d449f63",
+              "name": "start_date",
+              "value": "={{ $('Set nearest dates to check the calendar later').item.json.start_date }}",
+              "type": "string"
+            },
+            {
+              "id": "cd96671d-f55c-4720-885f-5331b49578cf",
+              "name": "end_date",
+              "value": "={{ $('Set nearest dates to check the calendar later').item.json.end_date }}",
+              "type": "string"
+            },
+            {
+              "id": "9f011666-3dd1-4e33-af98-a311535dc42d",
+              "name": "id",
+              "value": "={{ $('Set nearest dates to check the calendar later').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "6f4621bf-fb26-4bc2-a9c2-0ba078f2db66",
+              "name": "celenderid",
+              "value": "={{ $('Set nearest dates to check the calendar later').item.json.celenderid }}",
+              "type": "string"
+            },
+            {
+              "id": "a2999fa7-3761-4784-874a-c0810eded6cc",
+              "name": "reson",
+              "value": "={{ $('Set nearest dates to check the calendar later').item.json.reason }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7312,
+        1808
+      ],
+      "id": "e688926e-6131-4f97-b735-f1e48a5c5c3a",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "led_bookings",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "keyValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        5472,
+        912
+      ],
+      "id": "89e5c165-77f3-4752-87de-16f4a78ce4fa",
+      "name": "Get a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "UGcYRuohqNaBiL7w",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $json.calendarId }}",
+          "mode": "id"
+        },
+        "eventId": "={{ $json.cid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        5856,
+        912
+      ],
+      "id": "79cea1a5-b674-4067-afaf-84331e9c8abd",
+      "name": "Delete an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "tCkzTGuRKZPyd8qS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "tableId": "led_bookings",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Get a row').item.json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        6032,
+        912
+      ],
+      "id": "dac908de-84d8-4672-83e5-c5a0a3afec58",
+      "name": "Delete a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "UGcYRuohqNaBiL7w",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $json.calendarId }}",
+          "mode": "id"
+        },
+        "timeMin": "={{ $json.start_datetime }}",
+        "timeMax": "={{ $json.end_datetime }}",
+        "options": {
+          "timezone": {
+            "mode": "list",
+            "value": ""
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        6176,
+        1616
+      ],
+      "id": "1aaffe40-f3b6-46ad-9e9a-e21b32e0e2b9",
+      "name": "check avlblity",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "tCkzTGuRKZPyd8qS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $json.celenderid }}",
+          "mode": "id"
+        },
+        "timeMin": "={{ $json.start_date }}",
+        "timeMax": "={{ $json.end_date }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        7136,
+        1808
+      ],
+      "id": "7e2e8dcc-e866-42c9-b300-c3f1cba3a26f",
+      "name": "checks date",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "tCkzTGuRKZPyd8qS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vapi",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        4720,
+        1600
+      ],
+      "id": "2f893358-e94f-4a21-be3a-7ae8b1ddd96f",
+      "name": "Vapi_Booking_Request_Webhook",
+      "webhookId": "183e1075-67e5-40b5-b5b9-599e8b6aa990"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Vapi webhook ka raw body\nconst payload = $json.body;\n\n// Safety check\nif (\n  !payload?.message?.toolCalls ||\n  payload.message.toolCalls.length === 0\n) {\n  throw new Error(\"No toolCalls found from Vapi\");\n}\n\n// ✅ Extract toolCallId (IMPORTANT)\nconst toolCallId = payload.message.toolCalls[0].id;\n\n// Tool arguments (actual booking data)\nconst args = payload.message.toolCalls[0].function.arguments;\n\n// Ensure arguments object hai (kabhi kabhi string hota hai)\nconst booking =\n  typeof args === \"string\" ? JSON.parse(args) : args;\n\n// Final clean object (ALL DATA CARRIED FORWARD)\nreturn {\n  json: {\n    toolCallId,                 // 👈 ADD THIS\n    fullName: booking.fullName,\n    mobileNumber: booking.mobileNumber,\n    startDate: booking.startDate,\n    endDate: booking.endDate,\n    startTime: booking.startTime,\n    endTime: booking.endTime,\n    ledSelection: booking.ledSelection,\n    avlaible:booking.Action,\n    alternative:booking.alternative\n    \n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4960,
+        1600
+      ],
+      "id": "10aa7a8b-39f8-46e6-bd50-56c2e4449568",
+      "name": "Parse_And_Normalize_Vapi_Input"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": " ledSelection",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        5232,
+        1600
+      ],
+      "id": "5a190065-35d4-4859-b3d5-2d81826ba9e6",
+      "name": "Split_By_LED_Location"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const calendarMap = {\n  School: \"2f08543ad2e2c233afcb0b264d6bbbc85e65633a3a09937e0aee55c51d12ed16@group.calendar.google.com\",\n  College: \"f2a0ecb55e1a1d42a364c40c1812ce348b42434423e9824897d3da6248d8692e@group.calendar.google.com\",\n  Highway: \"3b10d849c0576e3d7a0e8b184381fd965250db2a06ec21928736fc4cabac7888@group.calendar.google.com\",\n  Park: \"187ccbd1135c805f3ffba14de44e7dbf264cf80a46d1e10680564e28ace952af@group.calendar.google.com\",\n  Market: \"67cd9aaedda88f69512f984295378f7b9206f338e27d7cf38b14a11a861e4a6b@group.calendar.google.com\"\n};\n\n// 👇 normalize input\nconst ledSelectionRaw = $json.ledSelection;\nconst ledSelection =\n  ledSelectionRaw.charAt(0).toUpperCase() + ledSelectionRaw.slice(1).toLowerCase();\n\nreturn {\n  json: {\n    ledSelection,\n    calendarId: calendarMap[ledSelection],\n\n    startDate: $json.startDate,\n    endDate: $json.endDate,\n    startTime: $json.startTime,\n    endTime: $json.endTime,\n\n    toolCallId: $json.toolCallId,\n    available: $json.avlaible,\n    alternate: $json.alternate,\n\n    name: $json.fullName,\n    mobileNumber: $json.mobileNumber\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5440,
+        1600
+      ],
+      "id": "84af4cfe-423f-4545-bf3c-d20f22ba48c9",
+      "name": "Map_LED_Location_To_Calendar_ID"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst output = [];\n\nconst startDateStr = items[0].json.startDate;\nconst endDateStr   = items[0].json.endDate;\nconst startTime = items[0].json.startTime;\nconst endTime   = items[0].json.endTime;\n\n// IST → UTC (FINAL TRUTH)\nfunction toUTC(dateStr, timeStr) {\n  const d = new Date(`${dateStr}T${timeStr}:00+05:30`);\n  return d.toISOString(); // UTC (Z)\n}\n\nfunction addDays(dateStr, days) {\n  const d = new Date(dateStr);\n  d.setDate(d.getDate() + days);\n  return d.toISOString().slice(0, 10);\n}\n\nlet dayIndex = 0;\n\nwhile (true) {\n  const dateStr = addDays(startDateStr, dayIndex);\n  if (dateStr > endDateStr) break;\n\n  for (const item of items) {\n    output.push({\n      ledSelection: item.json.ledSelection,\n      name:item.json.name,\n      Number:item.json.mobileNumber,\n      alter:item.json.alternate,\n      avalble:item.json.available,\n      calendarId: item.json.calendarId,\n      callid:item.json.toolCallId,\n      start_datetime: toUTC(dateStr, startTime), // ✅ UTC\n      end_datetime:   toUTC(dateStr, endTime),   // ✅ UTC\n      \n      \n    });\n  }\n\n  dayIndex++;\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5648,
+        1600
+      ],
+      "id": "e4e0d886-25b1-4f89-bdd6-98c6fbf854cf",
+      "name": "Divide by date"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0a932b2c-2783-43bd-8ae6-362fa7a071da",
+              "leftValue": "={{ $json.available }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        6688,
+        1616
+      ],
+      "id": "8114a5da-75fa-4c65-8e34-cf4d35bcff38",
+      "name": "Check if the date is available or alternate dates are required1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst RATE_PER_HOUR = {\n  School: 300,\n  College: 400,\n  Park: 250,\n  Market: 350,\n  Highway: 500,\n};\n\nconst HOURS_PER_DAY = 1;\n\nconst summary = {};\n\nfor (const item of items) {\n  const { led, available, start_date ,id } = item.json;\n\n  if (!summary[led]) {\n    summary[led] = {\n      led,\n      id,\n      availableDays: 0,\n      unavailableDays: 0,\n      availableDates: [],\n      unavailableDates: [],\n      hoursPerDay: HOURS_PER_DAY,\n      ratePerHour: RATE_PER_HOUR[led] ?? 0,\n      totalHours: 0,\n      totalPrice: 0,\n    };\n  }\n\n  if (available) {\n    summary[led].availableDays += 1;\n    summary[led].availableDates.push(start_date);\n  } else {\n    summary[led].unavailableDays += 1;\n    summary[led].unavailableDates.push(start_date);\n  }\n}\n\n// final calculation (price sirf available se)\nconst result = Object.values(summary).map(s => {\n  s.totalHours = s.availableDays * s.hoursPerDay;\n  s.totalPrice = s.totalHours * s.ratePerHour;\n  return s;\n});\n\nreturn result;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6992,
+        1600
+      ],
+      "id": "1c08fc6d-1fc4-4e74-bbc5-17b466c1a1ba",
+      "name": "Pricing logic"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nlet grandTotal = 0;\n\nfor (const item of items) {\n  grandTotal += item.json.totalPrice || 0;\n}\n\nreturn [\n  {\n    grandTotal,\n    breakdown: items.map(i => i.json)\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        7200,
+        1600
+      ],
+      "id": "c308a97f-3df0-4331-87b7-413f0f878110",
+      "name": "Grand total calculation"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $json.breakdown[0].id }}\",\n      \"result\": {\n        \"status\": \"price_calculated\",\n        \"grandTotal\": {{ $json.grandTotal }},\n        \"breakdown\": {{ JSON.stringify($json.breakdown) }}\n,\n        \"message\": \"Total price calculated successfully\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        7456,
+        1600
+      ],
+      "id": "a8bdd972-21f4-4632-8ded-69d01b399d2d",
+      "name": "Respond to Vapi for availability check"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $json.options[0].Id }}\",\n      \"result\": {\n        \"status\": \"available\",\n        \"intent\": \"alternate_slots\",\n        \"alternates\": {{ JSON.stringify($json.options) }}\n\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        7664,
+        1808
+      ],
+      "id": "3972aa4d-3624-4742-9e07-b8e058996d54",
+      "name": "Respond to Vapi with alternate dates"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// 👉 sirf wahi items rakho jisme available === true\nconst availableOptions = items\n  .filter(item => item.json.available === true)\n  .map(item => ({\n    led: item.json.led,\n    start_date: item.json.start_date,\n    end_date: item.json.end_date,\n    Id: item.json.id || item.json.id,\n    reason: item.json.reason || item.json.reson\n  }));\n\n// 👉 agar ek bhi available nahi mila\nif (availableOptions.length === 0) {\n  return [\n    {\n      json: {\n        status: \"not_available\",\n        options: []\n      }\n    }\n  ];\n}\n\n// 👉 SINGLE JSON return karo\nreturn [\n  {\n    json: {\n      status: \"available\",\n      options: availableOptions\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        7488,
+        1808
+      ],
+      "id": "359a8dd4-83d9-45d0-ad97-9dc2af26dc1c",
+      "name": "Merge all dates to prepare the webhook payload"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst SLOT_DURATION_HOURS = 2; // tumhara slot\nconst MAX_ALTERNATIVES = 3;\n\nfunction addHours(dateStr, hours) {\n  const d = new Date(dateStr);\n  d.setHours(d.getHours() + hours);\n  return d.toISOString();\n}\n\nconst alternatives = [];\n\nfor (const item of items) {\n  const start = item.json.start_date;\n  const end = item.json.end_date;\n\n  // OPTION 1: same date, next time slot (+2 hours)\n  alternatives.push({\n    led: item.json.led,\n        id:item.json.id,\n    celenderid:item.json.celenderid,\n\n    start_date: addHours(start, SLOT_DURATION_HOURS),\n    end_date: addHours(end, SLOT_DURATION_HOURS),\n    reason: \"same_date_next_time\"\n  });\n\n  // OPTION 2: next day, same time\n  const nextDayStart = new Date(start);\n  nextDayStart.setDate(nextDayStart.getDate() + 1);\n\n  const nextDayEnd = new Date(end);\n  nextDayEnd.setDate(nextDayEnd.getDate() + 1);\n\n  alternatives.push({\n    led: item.json.led,\n    id:item.json.id,\n        celenderid:item.json.celenderid,\n\n    start_date: nextDayStart.toISOString(),\n    end_date: nextDayEnd.toISOString(),\n    reason: \"next_day_same_time\"\n  });\n\n  if (alternatives.length >= MAX_ALTERNATIVES) break;\n}\n\nreturn alternatives.map(a => ({ json: a }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6912,
+        1808
+      ],
+      "id": "8d1ad42c-f013-4236-9daf-5bca4d0866d4",
+      "name": "Set nearest dates to check the calendar later"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "57511f5a-7113-4a65-8e96-d1bd79841fc4",
+              "leftValue": "={{ $json.avalble }}",
+              "rightValue": "confirm_booking",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5888,
+        1600
+      ],
+      "id": "fdd6a71b-eb4f-4cd8-9db8-a07e2a625bcf",
+      "name": "Check whether the user has confirmed the booking or is only checking availability"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $('Divide by date').item.json.callid }}\",\n      \"result\": {\n        \"status\": \"confirmation_received\",\n        \"message\": \"Your booking is  successfully completed.\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        6400,
+        1408
+      ],
+      "id": "f757b11d-ed70-45bc-bd54-f4b9b54faba9",
+      "name": "Respond to Vapi for booking confirmation"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.calendarId }}",
+          "mode": "id"
+        },
+        "start": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.start_datetime }}",
+        "end": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.end_datetime }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        6048,
+        1408
+      ],
+      "id": "a0dba0af-daca-4f7e-9d15-d4bb56b6a0fd",
+      "name": "Create booking slot",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "tCkzTGuRKZPyd8qS",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1297238311",
+        "text": "=Hello {{$json.name}},\n\nYour LED booking request has been received.\n\nBooking ID: {{$json.id}}\nDate & Time: {{\n  new Date(new Date($json.start_date_time).getTime() + (5.5 * 60 * 60 * 1000))\n    .toLocaleString('en-IN', {\n      day: '2-digit',\n      month: 'short',\n      year: 'numeric',\n      hour: '2-digit',\n      minute: '2-digit',\n      hour12: true\n    })\n}}\nLocation: {{ $json['led location'] }}\n\nPlease save this Booking ID for future reference.\n\n– LED Ads Team\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        6576,
+        1408
+      ],
+      "id": "5fd0d869-f51d-4c33-83cb-84b437b80852",
+      "name": "Send confirmation message on Telegram",
+      "webhookId": "d0094545-40de-437f-ac56-42622ccb37a5",
+      "credentials": {
+        "telegramApi": {
+          "id": "S8RQzhLs82fOgiPU",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "useCustomSchema": true,
+        "tableId": "led_bookings",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "start_date_time",
+              "fieldValue": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.start_datetime }}"
+            },
+            {
+              "fieldId": "end_date_time",
+              "fieldValue": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.end_datetime }}"
+            },
+            {
+              "fieldId": "led location",
+              "fieldValue": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.ledSelection }}"
+            },
+            {
+              "fieldId": "name",
+              "fieldValue": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.name }}"
+            },
+            {
+              "fieldId": "phone number",
+              "fieldValue": "={{ $('Check whether the user has confirmed the booking or is only checking availability').item.json.Number }}"
+            },
+            {
+              "fieldId": "cid",
+              "fieldValue": "={{ $json.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        6224,
+        1408
+      ],
+      "id": "0b0af889-f7a0-41fa-a91e-ffb2a05ef21d",
+      "name": "Store data in Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "UGcYRuohqNaBiL7w",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "get-delete",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        4624,
+        928
+      ],
+      "id": "90bbde21-249d-4815-9a2a-2e316b301c6f",
+      "name": "Webhook for getting and deleting bookings",
+      "webhookId": "27fb1368-fcb3-423b-b4a3-f9718ef722dd"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\n\n// tool call ka object\nconst toolCall =\n  data.body?.message?.toolCalls?.[0] ||\n  data.body?.message?.toolCallList?.[0] ||\n  data.body?.message?.toolWithToolCallList?.[0]?.toolCall;\n\n// safety check\nif (!toolCall) {\n  return [{\n    json: {\n      error: \"No tool call found\"\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    chatidv: toolCall.id || data.headers[\"x-call-id\"] || \"\",\n    action: toolCall.function.arguments.action || \"\",\n    id: toolCall.function.arguments.id || [],\n    mobilenumber: toolCall.function.arguments.number || \"\"\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4816,
+        928
+      ],
+      "id": "5e44f233-e2e1-4faf-9ebd-4d900d6753a8",
+      "name": "Summarize information"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "id",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        5024,
+        928
+      ],
+      "id": "afd2f7a9-6739-452b-93dc-5ad9291175fa",
+      "name": "Split information by booking ID"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2ad8d6c6-3744-49b0-b1ff-7cc3c8b3be1a",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "delete",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5232,
+        928
+      ],
+      "id": "88ea3bf1-8b39-4ac7-8304-1be31365b581",
+      "name": "Get booking IDs using the phone number"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\n// 👉 IF node se DIRECT chatidv lo\nconst chatidv = $('Get booking IDs using the phone number').first().json.chatidv;\n\n// safety\nif (!items.length) {\n  return [{\n    json: {\n      chatidv: chatidv,   // ✅ IF wala chatidv\n      chatid: \"\",\n      message: \"I could not find any bookings linked to your number.\"\n    }\n  }];\n}\n\n// 👉 chatid Supabase / DB se\nconst chatid =\n  items[0].json.chatid ||\n  items[0].json.callid ||\n  items[0].json.cid ||\n  \"\";\n\n// bookings text\nconst bookings = items.map((item, index) => {\n  return `Booking number ${index + 1}. Your booking ID is ${item.json.id}, scheduled from ${item.json.start_date_time} to ${item.json.end_date_time} at the ${item.json[\"led location\"]} location.`;\n});\n\nreturn [{\n  json: {\n    chatidv: chatidv,   // ✅ YAHI MAIN FIX HAI\n    chatid: chatid,\n    message: `I found ${items.length} bookings for you. ${bookings.join(\" \")}`\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5648,
+        1088
+      ],
+      "id": "a89ab8e4-3db5-4408-b73b-f7eba35ff4b2",
+      "name": "Merge all details"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $json.chatidv }}\",\n      \"result\": {\n        \"status\": \"success\",\n        \"message\": \"{{ $json.message }}\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        5840,
+        1088
+      ],
+      "id": "3483ac9f-9815-4bcb-b323-4bd955e93d53",
+      "name": "Respond to Vapi for get requests"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst calendarMap = {\n  School: \"2f08543ad2e2c233afcb0b264d6bbbc85e65633a3a09937e0aee55c51d12ed16@group.calendar.google.com\",\n  College: \"f2a0ecb55e1a1d42a364c40c1812ce348b42434423e9824897d3da6248d8692e@group.calendar.google.com\",\n  Highway:\"3b10d849c0576e3d7a0e8b184381fd965250db2a06ec21928736fc4cabac7888@group.calendar.google.com\",\n\nPark:\"187ccbd1135c805f3ffba14de44e7dbf264cf80a46d1e10680564e28ace952af@group.calendar.google.com\",\nMarket:\"67cd9aaedda88f69512f984295378f7b9206f338e27d7cf38b14a11a861e4a6b@group.calendar.google.com\"  \n};\n\nreturn items.map(item => {\n  const ledLocation = item.json[\"led location\"];\n  const calendarId = calendarMap[ledLocation] || \"\";\n\n  return {\n    json: {\n      ...item.json,\n      calendarId\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5696,
+        912
+      ],
+      "id": "89667723-848d-4b44-bbd0-0af5dc4fa7d5",
+      "name": "Map calendar ID to LED location"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $('Get booking IDs using the phone number').item.json.chatidv }}\",\n      \"result\": {\n        \"status\": \"deleted\",\n        \"message\": \"Your booking has been successfully cancelled.\"\n      }\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        6240,
+        912
+      ],
+      "id": "5e8bdfc0-2dc8-476a-b0f6-eb392100923e",
+      "name": "Respond to cancellation in Vapi"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "led_bookings",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "phone number",
+              "keyValue": "={{ $json.mobilenumber }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        5456,
+        1088
+      ],
+      "id": "cbae5587-dcd8-4a58-9d32-39b2e8554ceb",
+      "name": "Get booking IDs using the phone number1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "UGcYRuohqNaBiL7w",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Check if the date is available or alternate dates are required1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge all dates to prepare the webhook payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "Map calendar ID to LED location",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event": {
+      "main": [
+        [
+          {
+            "node": "Delete a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a row": {
+      "main": [
+        [
+          {
+            "node": "Respond to cancellation in Vapi",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check avlblity": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "checks date": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vapi_Booking_Request_Webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse_And_Normalize_Vapi_Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse_And_Normalize_Vapi_Input": {
+      "main": [
+        [
+          {
+            "node": "Split_By_LED_Location",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split_By_LED_Location": {
+      "main": [
+        [
+          {
+            "node": "Map_LED_Location_To_Calendar_ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map_LED_Location_To_Calendar_ID": {
+      "main": [
+        [
+          {
+            "node": "Divide by date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Divide by date": {
+      "main": [
+        [
+          {
+            "node": "Check whether the user has confirmed the booking or is only checking availability",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if the date is available or alternate dates are required1": {
+      "main": [
+        [
+          {
+            "node": "Pricing logic",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set nearest dates to check the calendar later",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pricing logic": {
+      "main": [
+        [
+          {
+            "node": "Grand total calculation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grand total calculation": {
+      "main": [
+        [
+          {
+            "node": "Respond to Vapi for availability check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge all dates to prepare the webhook payload": {
+      "main": [
+        [
+          {
+            "node": "Respond to Vapi with alternate dates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set nearest dates to check the calendar later": {
+      "main": [
+        [
+          {
+            "node": "checks date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check whether the user has confirmed the booking or is only checking availability": {
+      "main": [
+        [
+          {
+            "node": "Create booking slot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "check avlblity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Vapi for booking confirmation": {
+      "main": [
+        [
+          {
+            "node": "Send confirmation message on Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create booking slot": {
+      "main": [
+        [
+          {
+            "node": "Store data in Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store data in Supabase": {
+      "main": [
+        [
+          {
+            "node": "Respond to Vapi for booking confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook for getting and deleting bookings": {
+      "main": [
+        [
+          {
+            "node": "Summarize information",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize information": {
+      "main": [
+        [
+          {
+            "node": "Split information by booking ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split information by booking ID": {
+      "main": [
+        [
+          {
+            "node": "Get booking IDs using the phone number",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get booking IDs using the phone number": {
+      "main": [
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get booking IDs using the phone number1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge all details": {
+      "main": [
+        [
+          {
+            "node": "Respond to Vapi for get requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map calendar ID to LED location": {
+      "main": [
+        [
+          {
+            "node": "Delete an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get booking IDs using the phone number1": {
+      "main": [
+        [
+          {
+            "node": "Merge all details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1ceb8f5307d25e4dce4c598a4327e990a034d638b65f552dd4289eb465e5d189"
+  }
+}
